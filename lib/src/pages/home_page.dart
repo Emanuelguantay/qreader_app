@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qreader_app/src/pages/address_page.dart';
 import 'package:qreader_app/src/pages/maps_page.dart';
+import 'package:qrcode_reader/qrcode_reader.dart';
  
 void main() => runApp(HomePage());
  
@@ -34,9 +35,24 @@ class _HomePageState extends State<HomePage> {
   _floatingActionButton(){
     return FloatingActionButton(
       child: Icon(Icons.filter_center_focus),
-      onPressed: (){},
+      onPressed: _scanQR,
       backgroundColor: Theme.of(context).primaryColor,
     );
+  }
+
+  _scanQR() async{
+    String futureString = '';
+    try{
+      futureString = await new QRCodeReader().scan();
+    }catch(e){
+      futureString = e.toString();
+    }
+
+    print("FutureStrig: $futureString");
+
+    if (futureString != null){
+      print("Tenemos información");
+    }
   }
 
   _callPage(int page){
