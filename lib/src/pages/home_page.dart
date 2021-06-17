@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qreader_app/src/pages/address_page.dart';
 import 'package:qreader_app/src/pages/maps_page.dart';
-import 'package:qrcode_reader/qrcode_reader.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
  
 void main() => runApp(HomePage());
  
@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
+  String _scanBarcode = 'Unknown';
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +36,44 @@ class _HomePageState extends State<HomePage> {
   _floatingActionButton(){
     return FloatingActionButton(
       child: Icon(Icons.filter_center_focus),
-      onPressed: _scanQR,
+      onPressed: scanQR,
       backgroundColor: Theme.of(context).primaryColor,
     );
+  }
+
+  Future<void> scanQR() async {
+    String barcodeScanRes;
+    //"https://github.com/Emanuelguantay"
+    //"geo:40.724233047051705,-74.00731459101564"
+
+    barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+      '#ff6666', 'cancel', true, ScanMode.QR);
+    
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.QR);
+      print(barcodeScanRes);
+    } catch (e) {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
   }
 
   _scanQR() async{
     String futureString = '';
     try{
-      futureString = await new QRCodeReader().scan();
+      futureString = await FlutterBarcodeScanner.scanBarcode(
+      '#ff6666', 'cancel', true, ScanMode.QR);
     }catch(e){
       futureString = e.toString();
     }
+
+
 
     print("FutureStrig: $futureString");
 
