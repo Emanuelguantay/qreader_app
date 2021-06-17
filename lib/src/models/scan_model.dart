@@ -13,7 +13,13 @@ class ScanModel {
         this.id,
         this.type,
         this.value,
-    });
+    }){
+      if(this.value.contains("http")){
+        this.type = 'http';
+      }else{
+        this.type = 'geo';
+      }
+    }
 
     int id;
     String type;
