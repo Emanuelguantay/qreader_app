@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qreader_app/src/pages/address_page.dart';
 import 'package:qreader_app/src/pages/maps_page.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:qreader_app/src/providers/db_provider.dart';
  
 void main() => runApp(HomePage());
  
@@ -42,26 +43,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> scanQR() async {
-    String barcodeScanRes;
+    //String barcodeScanRes;
     //"https://github.com/Emanuelguantay"
     //"geo:40.724233047051705,-74.00731459101564"
 
-    barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-      '#ff6666', 'cancel', true, ScanMode.QR);
+    //String futureString = '';
+    String futureString = 'https://github.com/Emanuelguantay';
+
+    // barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+    //   '#ff6666', 'cancel', true, ScanMode.QR);
     
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
-      print(barcodeScanRes);
-    } catch (e) {
-      barcodeScanRes = 'Failed to get platform version.';
+    // try {
+    //   futureString = await FlutterBarcodeScanner.scanBarcode(
+    //       '#ff6666', 'Cancel', true, ScanMode.QR);
+    //   print(futureString);
+    // } catch (e) {
+    //   futureString = 'Failed to get platform version.';
+    // }
+
+    //if (!mounted) return;
+
+    // setState(() {
+    //   _scanBarcode = barcodeScanRes;
+    // });
+    if (futureString != null){
+      final scan = ScanModel(value: futureString);
+      DBProvider.db.newScan(scan);
     }
-
-    if (!mounted) return;
-
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
   }
 
   _scanQR() async{
