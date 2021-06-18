@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:qreader_app/src/models/scan_model.dart';
@@ -61,8 +60,33 @@ class DBProvider {
   newScan(ScanModel newScan) async{
     final db = await database;
     
-    final res = db.insert('Scans', newScan.toJson());
+    final res = await db.insert('Scans', newScan.toJson());
     return res;
+  }
+
+  //Select Get information
+  Future<ScanModel> getScanId(int id) async{
+    final db = await database;
+    final res = await db.query('Scans', where: 'id = ?', whereArgs: [id]);
+    return res.isNotEmpty ? ScanModel.fromJson(res.first) : null;
+  }
+
+  Future<List<ScanModel>> getScanAll() async{
+    final db = await database;
+    final res = await db.query('Scans');
+    List<ScanModel> list = res.isNotEmpty
+                              ? res.map((item) => ScanModel.fromJson(item)).toList()
+                              : [];
+    return list;
+  }
+
+  Future<List<ScanModel>> getScanForType(String type) async{
+    final db = await database;
+    final res = await db.rawQuery("SELECT * FROM Scans WHERE type='$type'");
+    List<ScanModel> list = res.isNotEmpty
+                              ? res.map((item) => ScanModel.fromJson(item)).toList()
+                              : [];
+    return list;
   }
 
 }
