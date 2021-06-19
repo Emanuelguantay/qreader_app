@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:qreader_app/src/bloc/scans_bloc.dart';
+import 'package:qreader_app/src/models/scan_model.dart';
 import 'package:qreader_app/src/pages/address_page.dart';
 import 'package:qreader_app/src/pages/maps_page.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:qreader_app/src/providers/db_provider.dart';
  
 void main() => runApp(HomePage());
  
@@ -12,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final scansBloc = new ScansBloc();
   int currentIndex = 0;
   String _scanBarcode = 'Unknown';
 
@@ -23,7 +25,9 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: Icon(Icons.delete_forever),
-            onPressed: (){},
+            onPressed:
+              scansBloc.deleteAllScans
+            ,
           )
         ],
       ),
@@ -68,7 +72,8 @@ class _HomePageState extends State<HomePage> {
     // });
     if (futureString != null){
       final scan = ScanModel(value: futureString);
-      DBProvider.db.newScan(scan);
+      scansBloc.addScan(scan);
+      //DBProvider.db.newScan(scan);
     }
   }
 
