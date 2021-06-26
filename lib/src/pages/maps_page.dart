@@ -42,7 +42,7 @@ class MapsPage extends StatelessWidget {
                   Icons.keyboard_arrow_right,
                   color: Colors.grey,
                 ),
-                onTap: (){utils.openScan(scans[i]);},
+                onTap: (){utils.openScan(context, scans[i]);},
               ),
             ),
           );

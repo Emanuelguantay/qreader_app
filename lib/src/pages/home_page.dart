@@ -83,10 +83,10 @@ class _HomePageState extends State<HomePage> {
 
       if (Platform.isIOS){
         Future.delayed(Duration(milliseconds: 750),(){
-          utils.openScan(scan);
+          utils.openScan(context, scan);
         });
       }else{
-        utils.openScan(scan);
+        utils.openScan(context, scan);
       }
     }
   }
