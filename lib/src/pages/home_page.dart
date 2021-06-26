@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
 
     //String futureString = '';
     String futureString = 'https://github.com/Emanuelguantay';
-
+    //TODO: Updated
     // barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
     //   '#ff6666', 'cancel', true, ScanMode.QR);
     
