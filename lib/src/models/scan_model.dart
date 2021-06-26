@@ -7,6 +7,7 @@
 // ScanModel scanModelFromJson(String str) => ScanModel.fromJson(json.decode(str));
 
 // String scanModelToJson(ScanModel data) => json.encode(data.toJson());
+import 'package:latlong/latlong.dart';
 
 class ScanModel {
     ScanModel({
@@ -36,4 +37,12 @@ class ScanModel {
         "type": type,
         "value": value,
     };
+
+  LatLng getLatLng(){
+    final latLng = value.substring(4).split(",");
+    final lat = double.parse(latLng[0]);
+    final lng = double.parse(latLng[1]);
+
+    return LatLng(lat,lng);
+  }
 }

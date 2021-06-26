@@ -10,4 +10,5 @@ openScan(BuildContext context, ScanModel scan) async {
     print('Geo');
     Navigator.pushNamed(context, "map", arguments: scan);
   }
+
 }
