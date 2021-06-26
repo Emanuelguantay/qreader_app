@@ -73,6 +73,9 @@ class _HomePageState extends State<HomePage> {
     if (futureString != null){
       final scan = ScanModel(value: futureString);
       scansBloc.addScan(scan);
+
+      final scan2 = ScanModel(value: 'geo:40.724233047051705,-74.00731459101564');
+      scansBloc.addScan(scan2);
       //DBProvider.db.newScan(scan);
     }
   }
