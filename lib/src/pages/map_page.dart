@@ -4,6 +4,8 @@ import 'package:qreader_app/src/models/scan_model.dart';
 import 'package:latlong/latlong.dart';
 
 class MapPage extends StatelessWidget {
+  final map = new MapController();
+  
   @override
   Widget build(BuildContext context) {
     final ScanModel scan = ModalRoute.of(context).settings.arguments;
@@ -14,7 +16,9 @@ class MapPage extends StatelessWidget {
           actions: [
             IconButton(
               icon: Icon(Icons.my_location),
-              onPressed: () {},
+              onPressed: () {
+                map.move(scan.getLatLng(), 15);
+              },
             )
           ],
         ),
@@ -23,6 +27,7 @@ class MapPage extends StatelessWidget {
 
   _createFlutterMap(ScanModel scan) {
     return FlutterMap(
+      mapController: map,
       options: MapOptions(
         center: scan.getLatLng(),
         zoom: 13.0,
@@ -37,7 +42,7 @@ class MapPage extends StatelessWidget {
   _createMap(){
     return TileLayerOptions(
       urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        subdomains: ['a', 'b', 'c']
+        subdomains: ['a', 'b', 'c'],
       // urlTemplate: 'https://api.mapbox.com/v4/{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}',
       // additionalOptions: {
       //   'accessToken': 'pk.eyJ1IjoiZW1hbnVlbC1ndWFudGF5IiwiYSI6ImNrcWQ1N2VzdjEyZnEydW11OTF4b25rbWoifQ.OX07ysGs1YTMi_cO-CAO3A',
@@ -50,8 +55,8 @@ class MapPage extends StatelessWidget {
     return MarkerLayerOptions(
       markers: [
         Marker(
-          width: 120.0,
-          height: 120.0,
+          width: 100.0,
+          height: 100.0,
           point: scan.getLatLng(),
           builder: (context) =>
             Container(
